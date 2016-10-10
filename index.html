@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<title>Harambe</title>
 	</head>
-	<body style="background: #795548;text-align: center;">
+	<body>
 		<div id="content">
 			<h1 style="color: #FFFFFF;font-family:cursive;font-size: 48px;margin-bottom: 48px;">We will never forget</h1>
 
@@ -46,8 +46,8 @@
 									image.setAttribute('src', '/images/' + newCount + '.jpg')
 									image.setAttribute('style', 'opacity: 1;')
 								},
-								500
-							)
+								1000
+							);
 
 							count = newCount;
 						},
@@ -59,6 +59,16 @@
 		</script>
 
 		<style>
+			body {
+				background: #795548;
+				text-align: center;
+
+				background: -webkit-linear-gradient(#795548, #D7CCC8 90%); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(#795548, #D7CCC8 90%); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(#795548, #D7CCC8 90%); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(#795548, #D7CCC8 90%); /* Standard syntax */
+			}
+
 			img {
 				transition: opacity 1000ms ease;
 				-webkit-transition: opacity 1000ms ease;
