@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Harambe</title>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" type="stylesheet"></link>
+
+		<script src="http://cdn.wedeploy.com/api/latest/wedeploy.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			<div class="title">We will never forget</div>
+
+			<div class="slider">
+				<img src="/images/1.jpg" />
+			</div>
+
+			<div class="title">1999 - 2016</div>
+		</div>
+
+
+		<div class="footer">
+			<label for="emailInput">Tell the world of this great tradgedy, send this site to a friend:</label>
+
+			<input id="emailInput" placeholder="Email" />
+			<button id="emailButton">Send</button>
+		</div>
+
+		<audio autoplay src="/remember-you.mp3"></audio>
+
+		<script>
+			var image = document.getElementsByTagName('img')[0];
+			var totalImages = 10;
+
+			var count = 1;
+
+			setTimeout(
+				function() {
+					document.getElementById('content').setAttribute('style', 'opacity: 1;')
+				},
+				1000
+			);
+
+			setTimeout(
+				function() {
+					image.setAttribute('style', 'opacity: 1;')
+
+					setInterval(
+						function() {
+							var newCount = count === totalImages ? 1 : count + 1;
+
+							image.setAttribute('style', 'opacity: 0;')
+
+							setTimeout(
+								function() {
+									image.setAttribute('src', '/images/' + newCount + '.jpg')
+									image.setAttribute('style', 'opacity: 1;')
+								},
+								1000
+							);
+
+							count = newCount;
+						},
+						6000
+					);
+				},
+				5000
+			);
+
+			var button = document.getElementById('emailButton');
+			var input = document.getElementById('emailInput');
+
+			button.addEventListener(
+				'click',
+				function() {
+					var email = input.value;
+
+					WeDeploy
+						.url('http://email.harambe.wedeploy.io/emails')
+						.auth('45297e2d-e895-4d0c-a79a-23d678f68036')
+						.form('to', email)
+						.form('from', 'harambe@heaven.com')
+						.form('subject', 'Do you remember me?')
+						.form('message', "Don't let Harambe's name be forgotten. Remember him <a href='http://harambe.wedeploy.io'>here</a>. No need to hold back your tears any longer.")
+						.post()
+						.then(function(response) {
+							input.value = '';
+
+							console.info('Email ID:', response.body());
+
+							if (response.succeeded()) {
+								form.reset();
+
+								alert('Email sent! Wait a little bit until it arrives :)');
+
+							}
+						});
+				}
+			);
+
+		</script>
+
+		<style>
+			html, body {
+				height: 100%;
+			}
+
+			body {
+				color: #212121;
+				display: flex;
+				flex-direction: column;
+				margin: 0;
+				text-align: center;
+
+				background-repeat: no-repeat;
+				background: -webkit-linear-gradient(#795548, #D7CCC8 90%); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(#795548, #D7CCC8 90%); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(#795548, #D7CCC8 90%); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(#795548, #D7CCC8 90%); /* Standard syntax */
+			}
+
+			img {
+				opacity: 0;
+				position: relative;
+				max-width: 600px;
+				max-height: 600px;
+				border-radius: 4px;
+
+				transition: opacity 1000ms ease;
+				-webkit-transition: opacity 1000ms ease;
+			}
+
+			#content {
+				margin-bottom: auto;
+				opacity: 0;
+
+				transition: opacity 1000ms ease;
+				-webkit-transition: opacity 1000ms ease;
+			}
+
+			#emailButton {
+				background: #9E9E9E;
+				border-radius: 0 4px 4px 0;
+				border: 1px solid #BDBDBD;
+				color: white;
+				left: -4px;
+				margin: 0;
+				padding: 8px;
+				position: relative;
+			}
+
+			#emailInput {
+				color: #757575;
+				padding: 8px;
+				border-radius: 4px 0 0 4px;
+				border: 1px solid #BDBDBD;
+				outline: 0;
+				width: 200px;
+			}
+
+			.title {
+				font-family: cursive;
+				font-size: 48px;
+				margin-bottom: 48px;
+			}
+
+			.footer {
+				border-top: 1px solid #BDBDBD;
+				padding: 36px;
+				background: #FFFFFF;
+			}
+
+			.slider {
+				height: 100%;
+				width: 100%;
+			}
+		</style>
+	</body>
+</html>
