@@ -18,12 +18,20 @@
 			<div class="title">1999 - 2016</div>
 		</div>
 
-
 		<div class="footer">
-			<label for="emailInput">Tell the world of this great tradgedy, send this site to a friend:</label>
+			<div class="letters">
+				<label for="letterInput">Send a message to Harambe telling him how you feel:</label>
 
-			<input id="emailInput" placeholder="Email" />
-			<button id="emailButton">Send</button>
+				<input id="letterInput" placeholder="Message" />
+				<button id="letterButton">Send</button>
+			</div>
+
+			<div class="share">
+				<label for="emailInput">Tell the world of this great tradgedy, send this site to a friend:</label>
+
+				<input id="emailInput" placeholder="Email" />
+				<button id="emailButton">Send</button>
+			</div>
 		</div>
 
 		<audio autoplay src="/remember-you.mp3"></audio>
@@ -67,13 +75,12 @@
 				5000
 			);
 
-			var button = document.getElementById('emailButton');
-			var input = document.getElementById('emailInput');
+			var emailInput = document.getElementById('emailInput');
 
-			button.addEventListener(
+			document.getElementById('emailButton').addEventListener(
 				'click',
 				function() {
-					var email = input.value;
+					var email = emailInput.value;
 
 					WeDeploy
 						.url('http://email.harambe.wedeploy.io/emails')
@@ -84,13 +91,11 @@
 						.form('message', "Don't let Harambe's name be forgotten. Remember him <a href='http://harambe.wedeploy.io'>here</a>. No need to hold back your tears any longer.")
 						.post()
 						.then(function(response) {
-							input.value = '';
+							emailInput.value = '';
 
 							console.info('Email ID:', response.body());
 
 							if (response.succeeded()) {
-								form.reset();
-
 								alert('Email sent! Wait a little bit until it arrives :)');
 
 							}
@@ -98,6 +103,38 @@
 				}
 			);
 
+			var messageInput = document.getElementById('letterInput');
+
+			document.getElementById('letterButton').addEventListener(
+				'click',
+				function() {
+					var message = messageInput.value;
+
+					WeDeploy
+						.url('http://email.harambe.wedeploy.io/emails')
+						.auth('45297e2d-e895-4d0c-a79a-23d678f68036')
+						.form('to', 'bryce.osterhaus@liferay.com')
+						.form('from', 'harambe@heaven.com')
+						.form('subject', 'Letter to Harambe')
+						.form('message', message)
+						.post()
+						.then(function(response) {
+							messageInput.value = '';
+
+							if (response.succeeded()) {
+								alert('Message sent! Harambe loves you');
+
+							}
+						});
+				}
+			);
+
+			var toggleActiveClass = function(event) {
+				event.target.className += ' active';
+			}
+
+			document.getElementsByClassName('letters')[0].addEventListener('click', toggleActiveClass);
+			document.getElementsByClassName('share')[0].addEventListener('click', toggleActiveClass);
 		</script>
 
 		<style>
@@ -138,7 +175,7 @@
 				-webkit-transition: opacity 1000ms ease;
 			}
 
-			#emailButton {
+			#emailButton, #letterButton {
 				background: #9E9E9E;
 				border-radius: 0 4px 4px 0;
 				border: 1px solid #BDBDBD;
@@ -149,7 +186,7 @@
 				position: relative;
 			}
 
-			#emailInput {
+			#emailInput, #letterInput {
 				color: #757575;
 				padding: 8px;
 				border-radius: 4px 0 0 4px;
@@ -158,21 +195,62 @@
 				width: 200px;
 			}
 
-			.title {
+			.title, .letters:before, .share:before {
 				font-family: cursive;
+			}
+
+			.title {
 				font-size: 48px;
 				margin-bottom: 48px;
 			}
 
 			.footer {
 				border-top: 1px solid #BDBDBD;
-				padding: 36px;
 				background: #FFFFFF;
+				display: flex;
 			}
 
 			.slider {
 				height: 100%;
 				width: 100%;
+			}
+
+			.letters, .share {
+				flex-basis: 50%;
+				padding: 36px;
+				position: relative;
+			}
+
+			.letters {
+				border-right: 1px solid #BDBDBD;
+			}
+
+			.letters:before {
+				content: 'Letters for Harambe...';
+			}
+
+			.share:before {
+				content: 'Share with others...';
+			}
+
+			.letters:before, .share:before {
+				align-items: center;
+				background: #757575;
+				bottom: 0;
+				color: #FFFFFF;
+				cursor: pointer;
+				display: flex;
+				font-size: 24px;
+				justify-content: center;
+				left: 0;
+				position: absolute;
+				top: 0;
+				right: 0;
+				z-index: 1;
+			}
+
+			.letters.active:before, .share.active:before {
+				display: none;
 			}
 		</style>
 	</body>
